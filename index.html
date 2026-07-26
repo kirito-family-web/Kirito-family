@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kirito Family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080c;
+    --bg-2:#0e0e17;
+    --cyan:#4ee3ff;
+    --violet:#7c5cff;
+    --ink:#e9e9f2;
+    --ink-dim:#8b8ba0;
+    --line:#22222f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Sora',sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--cyan);color:#08080c;}
+
+  /* subtle scanline / grain atmosphere */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,92,255,0.18), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(78,227,255,0.10), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .slash{
+    display:block;
+    width:64px;height:3px;
+    background:linear-gradient(90deg,var(--cyan),var(--violet));
+    transform:skewX(-25deg);
+    box-shadow:0 0 12px rgba(78,227,255,0.6);
+  }
+  .slash.center{margin:0 auto;}
+
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--cyan);
+  }
+
+  h1,h2,h3{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- GATE (Screen 1) ---------- */
+  #gate{
+    position:fixed;inset:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    transition:opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #gate.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  #gate.leaving-no{opacity:0;visibility:hidden;}
+
+  .gate-inner{
+    text-align:center;
+    padding:2rem;
+    max-width:640px;
+    animation:riseIn 1s ease both;
+  }
+  @keyframes riseIn{
+    from{opacity:0;transform:translateY(18px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .gate-title{
+    font-size:clamp(2.6rem,9vw,5.2rem);
+    line-height:0.95;
+    margin:1rem 0 0.6rem;
+    position:relative;
+    color:var(--ink);
+  }
+  .gate-title .glitch{
+    position:relative;
+    display:inline-block;
+    background:linear-gradient(90deg,var(--cyan),var(--violet) 70%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .gate-title .glitch::before,
+  .gate-title .glitch::after{
+    content:"WELCOME";
+    position:absolute;left:0;top:0;
+    width:100%;
+    background:linear-gradient(90deg,var(--cyan),var(--violet) 70%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    opacity:0.75;
+  }
+  .gate-title .glitch::before{
+    animation:glitchA 3.2s infinite;
+    clip-path:inset(0 0 60% 0);
+  }
+  .gate-title .glitch::after{
+    animation:glitchB 3.6s infinite;
+    clip-path:inset(60% 0 0 0);
+  }
+  @keyframes glitchA{
+    0%,88%,100%{transform:translate(0,0);opacity:0;}
+    89%{transform:translate(-3px,-1px);opacity:0.7;}
+    91%{transform:translate(3px,1px);opacity:0.5;}
+    93%{transform:translate(0,0);opacity:0;}
+  }
+  @keyframes glitchB{
+    0%,90%,100%{transform:translate(0,0);opacity:0;}
+    91%{transform:translate(3px,0);opacity:0.6;}
+    93%{transform:translate(-2px,1px);opacity:0.4;}
+    95%{transform:translate(0,0);opacity:0;}
+  }
+
+  .gate-q{
+    font-size:1.05rem;
+    color:var(--ink-dim);
+    margin:1.4rem 0 2.2rem;
+    line-height:1.6;
+  }
+  .gate-q b{color:var(--ink);font-weight:600;}
+
+  .gate-buttons{
+    display:flex;
+    gap:1rem;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    letter-spacing:0.04em;
+    padding:0.85rem 2.1rem;
+    border-radius:2px;
+    cursor:pointer;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink);
+    transition:all 0.25s ease;
+    position:relative;
+  }
+  .btn-yes{
+    background:linear-gradient(90deg,var(--cyan),var(--violet));
+    color:#08080c;
+    border:none;
+  }
+  .btn-yes:hover{
+    filter:brightness(1.12);
+    box-shadow:0 0 24px rgba(78,227,255,0.45);
+    transform:translateY(-2px);
+  }
+  .btn-no{
+    color:var(--ink-dim);
+  }
+  .btn-no:hover{
+    border-color:var(--ink-dim);
+    color:var(--ink);
+  }
+
+  /* ---------- LEAVE SCREEN ---------- */
+  #leave{
+    position:fixed;inset:0;
+    z-index:60;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    text-align:center;
+    opacity:0;
+    transition:opacity 0.6s ease;
+  }
+  #leave.show{display:flex;opacity:1;}
+  #leave p{
+    font-family:'Rajdhani',sans-serif;
+    font-size:1.6rem;
+    color:var(--ink-dim);
+  }
+
+  /* ---------- MAIN SITE ---------- */
+  #site{
+    position:relative;
+    z-index:1;
+    opacity:0;
+    transition:opacity 0.8s ease;
+  }
+  #site.visible{opacity:1;}
+
+  header.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:2rem 1.5rem;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-size:clamp(2.8rem,10vw,6rem);
+    line-height:0.95;
+    margin:1rem 0;
+    background:linear-gradient(90deg,var(--ink),var(--cyan) 50%,var(--violet));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .since{
+    font-family:'Space Mono',monospace;
+    font-size:0.8rem;
+    color:var(--ink-dim);
+    letter-spacing:0.12em;
+    margin-top:0.5rem;
+  }
+  .since b{color:var(--cyan);font-weight:400;}
+  .scroll-hint{
+    margin-top:3.2rem;
+    font-family:'Space Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.2em;
+    color:var(--ink-dim);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.5rem;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(8px);}
+  }
+  .scroll-hint span{
+    width:1px;height:36px;
+    background:linear-gradient(var(--cyan),transparent);
+  }
+
+  section{
+    padding:6rem 1.5rem;
+    max-width:920px;
+    margin:0 auto;
+    position:relative;
+  }
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  .about h2{
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    margin:0.8rem 0 1.6rem;
+  }
+  .about p{
+    color:var(--ink-dim);
+    font-size:1.05rem;
+    line-height:1.85;
+    max-width:680px;
+  }
+  .about p b{color:var(--ink);font-weight:500;}
+
+  .founder{
+    margin-top:2.2rem;
+    display:inline-flex;
+    align-items:center;
+    gap:0.7rem;
+    font-family:'Space Mono',monospace;
+    font-size:0.82rem;
+    color:var(--ink-dim);
+    border:1px solid var(--line);
+    padding:0.6rem 1rem;
+    border-radius:2px;
+  }
+  .founder b{color:var(--violet);font-weight:400;}
+
+  .disciplines{
+    border-top:1px solid var(--line);
+  }
+  .disciplines h3{
+    font-size:1.4rem;
+    margin-bottom:2rem;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .cell{
+    background:var(--bg-2);
+    padding:1.6rem 1.2rem;
+    transition:background 0.25s ease;
+  }
+  .cell:hover{background:#12121e;}
+  .cell .tag{
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    color:var(--cyan);
+    letter-spacing:0.1em;
+  }
+  .cell .name{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:1.15rem;
+    margin-top:0.35rem;
+  }
+
+  .join{
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .join h2{
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    margin:0.8rem 0 1rem;
+  }
+  .join p{
+    color:var(--ink-dim);
+    max-width:520px;
+    margin:0 auto 2.4rem;
+    line-height:1.75;
+  }
+
+  .join-btn{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700;
+    font-size:1.1rem;
+    letter-spacing:0.05em;
+    padding:1rem 2.6rem;
+    background:linear-gradient(90deg,var(--cyan),var(--violet));
+    color:#08080c;
+    border:none;
+    border-radius:2px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+  }
+  .join-btn:hover{
+    box-shadow:0 0 28px rgba(78,227,255,0.5);
+    transform:translateY(-2px);
+  }
+
+  .link-card{
+    margin:2.4rem auto 0;
+    max-width:440px;
+    border:1px solid var(--line);
+    background:var(--bg-2);
+    padding:1.8rem;
+    border-radius:4px;
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-height 0.55s ease, opacity 0.5s ease, padding 0.55s ease;
+  }
+  .link-card.open{
+    max-height:260px;
+    opacity:1;
+  }
+  .link-card .eyebrow{display:block;margin-bottom:0.8rem;}
+  .link-card a{
+    display:block;
+    margin-top:1.1rem;
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    color:#08080c;
+    background:var(--cyan);
+    text-decoration:none;
+    padding:0.85rem 1rem;
+    border-radius:2px;
+    transition:all 0.2s ease;
+  }
+  .link-card a:hover{
+    background:var(--ink);
+    box-shadow:0 0 20px rgba(78,227,255,0.4);
+  }
+  .link-card small{
+    display:block;
+    margin-top:0.9rem;
+    color:var(--ink-dim);
+    font-size:0.78rem;
+  }
+
+  footer{
+    text-align:center;
+    padding:3rem 1.5rem 4rem;
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    color:var(--ink-dim);
+    letter-spacing:0.08em;
+    border-top:1px solid var(--line);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- SCREEN 1: GATE -->
+  <div id="gate">
+    <div class="gate-inner">
+      <span class="eyebrow">Kirito Family</span>
+      <h1 class="gate-title"><span class="glitch">WELCOME</span></h1>
+      <p class="gate-q">Apakah kamu tertarik <b>join Kirito Family</b>?</p>
+      <div class="gate-buttons">
+        <button class="btn btn-yes" id="btnYes">Iya, aku tertarik</button>
+        <button class="btn btn-no" id="btnNo">Tidak</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEAVE SCREEN -->
+  <div id="leave">
+    <p>Baik, sampai jumpa lain waktu 👋</p>
+  </div>
+
+  <!-- MAIN SITE -->
+  <div id="site">
+    <header class="hero">
+      <span class="slash center"></span>
+      <h1 class="brand">KIRITO<br>FAMILY</h1>
+      <p class="since">SINCE <b>24 MEI 2026</b> — FOUNDED BY <b>RYSKIRIGAYA</b></p>
+      <div class="scroll-hint">
+        <span></span>
+        SCROLL
+      </div>
+    </header>
+
+    <section class="about reveal">
+      <span class="eyebrow">Tentang</span>
+      <h2>Rumah untuk para kreator.</h2>
+      <p>
+        <b>Kirito Family</b> adalah marga yang menaungi para creator di bidang
+        <b>monograph, GFX, typography, L2D, VFX, JJ</b>, dan berbagai editan anime lainnya.
+        Tempat berkumpul buat mereka yang serius mengasah karya di dunia editing —
+        saling belajar, saling upgrade, satu keluarga.
+      </p>
+      <div class="founder">
+        <span class="slash" style="width:20px;"></span>
+        Digagas oleh <b>Ryskirigaya</b>
+      </div>
+    </section>
+
+    <section class="disciplines reveal">
+      <span class="eyebrow">Bidang</span>
+      <h3>Yang dinaungi</h3>
+      <div class="grid">
+        <div class="cell"><span class="tag">01</span><div class="name">Monograph</div></div>
+        <div class="cell"><span class="tag">02</span><div class="name">GFX</div></div>
+        <div class="cell"><span class="tag">03</span><div class="name">Typography</div></div>
+        <div class="cell"><span class="tag">04</span><div class="name">L2D</div></div>
+        <div class="cell"><span class="tag">05</span><div class="name">VFX</div></div>
+        <div class="cell"><span class="tag">06</span><div class="name">JJ</div></div>
+        <div class="cell"><span class="tag">07</span><div class="name">Anime Edit</div></div>
+      </div>
+    </section>
+
+    <section class="join reveal">
+      <span class="eyebrow">Bergabung</span>
+      <h2>Siap jadi bagian dari Family?</h2>
+      <p>Tekan tombol di bawah untuk membuka link grup seleksi Kirito Family.</p>
+      <button class="join-btn" id="btnJoin">Join</button>
+
+      <div class="link-card" id="linkCard">
+        <span class="eyebrow">Grup Seleksi</span>
+        <p style="color:var(--ink-dim);font-size:0.9rem;">Klik tombol di bawah untuk masuk ke grup seleksi Kirito Family.</p>
+        <a href="https://chat.whatsapp.com/LK1ahNnNlz1GUZPLqciukU?s=cl&p=a&ilr=4&amv=1" target="_blank" rel="noopener">Masuk ke Grup Seleksi →</a>
+        <small>Kamu akan diarahkan ke WhatsApp.</small>
+      </div>
+    </section>
+
+    <footer>KIRITO FAMILY — MONOGRAPH · GFX · TYPOGRAPHY · L2D · VFX · JJ · ANIME EDIT</footer>
+  </div>
+
+<script>
+  const gate = document.getElementById('gate');
+  const leave = document.getElementById('leave');
+  const site = document.getElementById('site');
+  const btnYes = document.getElementById('btnYes');
+  const btnNo = document.getElementById('btnNo');
+  const btnJoin = document.getElementById('btnJoin');
+  const linkCard = document.getElementById('linkCard');
+
+  btnYes.addEventListener('click', () => {
+    gate.classList.add('hidden');
+    setTimeout(() => {
+      site.classList.add('visible');
+      document.body.style.overflow = 'auto';
+    }, 300);
+  });
+
+  btnNo.addEventListener('click', () => {
+    gate.classList.add('leaving-no');
+    leave.classList.add('show');
+    setTimeout(() => {
+      window.close();
+    }, 1200);
+  });
+
+  btnJoin.addEventListener('click', () => {
+    linkCard.classList.toggle('open');
+    if(linkCard.classList.contains('open')){
+      setTimeout(() => linkCard.scrollIntoView({behavior:'smooth', block:'center'}), 150);
+    }
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el => observer.observe(el));
+
+  // lock scroll while gate is open
+  document.body.style.overflow = 'hidden';
+</script>
+
+</body>
+</html>
