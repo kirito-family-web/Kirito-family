@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#151515">
+<title>Kirito Family — Join</title>
+<style>
+:root{color-scheme:dark;--bg:#151515;--panel:#19191b;--line:#505054;--text:#f2f2f4;--muted:#a4a4aa;--accent:#e5e5e9;--green:#39c987}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background-color:var(--bg);background-image:linear-gradient(#ffffff0b 1px,transparent 1px),linear-gradient(90deg,#ffffff0b 1px,transparent 1px),radial-gradient(ellipse at 50% 40%,#28282b 0%,#151515 65%);background-size:150px 150px,150px 150px,100% 100%;color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:flex;align-items:center;justify-content:center;padding:24px 14px}
+.card{width:min(100%,560px);border:2px solid #55555a;border-radius:38px;background:#171719f2;box-shadow:0 0 0 2px #ffffff08,inset 0 1px 0 #ffffff12;padding:28px 24px 30px}
+.brand{text-align:center;margin-bottom:25px;font-family:system-ui,sans-serif;letter-spacing:3px}
+.brand .mark{font-size:12px;color:#a8a8ad;letter-spacing:5px}
+.brand h1{font-size:26px;margin:8px 0 4px;letter-spacing:2px}
+.brand p{font-size:12px;color:#aaa;margin:0;letter-spacing:1px}
+.steps{display:flex;align-items:center;justify-content:space-between;position:relative;margin:0 8px 30px}
+.steps:before{content:"";height:3px;background:#3d3d40;position:absolute;left:0;right:0;top:22px;z-index:0}
+.step{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;border:2px solid #57575b;background:#19191b;display:grid;place-items:center;color:#8c8c91;font-size:16px}
+.step.active{background:#f4f4f6;color:#19191b;border-color:#f4f4f6;box-shadow:0 0 18px #ffffff25}
+.step.done{border-color:var(--green);color:var(--green)}
+h2{text-align:center;font-size:22px;letter-spacing:1px;margin:0 0 12px}
+.subtitle{text-align:center;color:var(--muted);font-family:system-ui,sans-serif;font-size:14px;line-height:1.6;margin:0 auto 26px}
+label{display:block;color:#bcbcc1;font-size:13px;margin:19px 0 9px}
+input,textarea{width:100%;border:2px solid #48484d;background:#141416;border-radius:19px;padding:15px 17px;color:#fff;font:15px system-ui,sans-serif;outline:none}
+input:focus,textarea:focus{border-color:#a4a4aa}
+textarea{min-height:100px;resize:vertical}
+button,.linkbutton{display:block;width:100%;border:2px solid #66666b;border-radius:28px;background:#202023;color:#f2f2f4;padding:14px 18px;font:600 14px ui-monospace,monospace;letter-spacing:1px;text-align:center;text-decoration:none;cursor:pointer;transition:.2s}
+button:hover,.linkbutton:hover{background:#303034}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primary{background:#e8e8ec;color:#151515;border-color:#e8e8ec}
+.primary:hover{background:#fff}
+.note{border:1px solid #444449;border-radius:16px;padding:13px;color:#a9a9af;font:13px/1.6 system-ui,sans-serif;margin-top:18px}
+.note strong{color:#e5e5e8}
+.status{display:none;text-align:center;color:var(--green);font:13px/1.6 system-ui,sans-serif;margin-top:16px}
+.progress{height:5px;background:#353539;border-radius:9px;overflow:hidden;margin-top:16px;display:none}
+.progress span{display:block;height:100%;width:0;background:var(--green);transition:width 1s linear}
+.tiny{text-align:center;font:11px/1.6 system-ui,sans-serif;color:#77777e;margin:22px 0 0}
+.hidden{display:none!important}
+ul{padding-left:20px;color:#bdbdc2;font:14px/1.7 system-ui,sans-serif}
+.check{display:flex;gap:10px;align-items:flex-start;font:13px/1.5 system-ui,sans-serif;color:#bbb;margin-top:16px}
+.check input{width:auto;margin-top:3px;accent-color:#ddd}
+</style>
+</head>
+<body>
+<main class="card">
+  <header class="brand"><div class="mark">WELCOME TO</div><h1>KIRITO FAMILY</h1><p>JOIN THE CREATOR FAMILY</p></header>
+  <div class="steps" aria-label="Tahapan pendaftaran">
+    <div class="step active" id="dot1">1</div><div class="step" id="dot2">2</div><div class="step" id="dot3">3</div><div class="step" id="dot4">4</div><div class="step" id="dot5">5</div>
+  </div>
+
+  <section id="page1">
+    <h2>Verifikasi Awal</h2><p class="subtitle">Isi identitas singkat sebelum bergabung ke Kirito Family.</p>
+    <label for="nickname">Nama / nickname</label><input id="nickname" placeholder="Contoh: Ryskirigaya" maxlength="40" autocomplete="nickname">
+    <label for="tiktok">Link profil TikTok kamu</label><input id="tiktok" type="url" placeholder="https://www.tiktok.com/@username">
+    <button class="primary" style="margin-top:22px" onclick="nextPage(1)">LANJUTKAN →</button>
+  </section>
+
+  <section id="page2" class="hidden">
+    <h2>Karya TikTok</h2><p class="subtitle">Unggah karya edit kamu di TikTok dengan hashtag wajib <strong>#kiritofamily</strong>.</p>
+    <label for="worklink">Link video/karya TikTok</label><input id="worklink" type="url" placeholder="https://www.tiktok.com/@.../video/...">
+    <div class="note">Pastikan link bisa dibuka dan caption atau deskripsi karya mencantumkan <strong>#kiritofamily</strong>.</div>
+    <button class="primary" style="margin-top:22px" onclick="nextPage(2)">SUDAH KIRIM KARYA →</button>
+    <button style="margin-top:10px" onclick="goPage(1)">← KEMBALI</button>
+  </section>
+
+  <section id="page3" class="hidden">
+    <h2>Bukti Follow</h2><p class="subtitle">Follow akun TikTok resmi Kirito Family, lalu siapkan screenshot bukti follow.</p>
+    <a class="linkbutton" href="https://www.tiktok.com/" target="_blank" rel="noopener">BUKA TIKTOK</a>
+    <label for="official">Username/link akun resmi Kirito</label><input id="official" type="text" placeholder="Isi username resmi di sini">
+    <label for="proof">Link screenshot bukti follow (opsional)</label><input id="proof" type="url" placeholder="Link gambar dari penyimpanan/cloud">
+    <div class="note">Website HTML biasa tidak dapat memeriksa screenshot atau status follow secara otomatis. Admin dapat mengecek bukti yang dikirimkan. Jangan unggah bukti yang berisi data pribadi.</div>
+    <label class="check"><input type="checkbox" id="followcheck"><span>Saya sudah follow akun resmi Kirito Family dan siap menunjukkan screenshot jika diminta admin.</span></label>
+    <button class="primary" style="margin-top:22px" onclick="nextPage(3)">KONFIRMASI →</button>
+    <button style="margin-top:10px" onclick="goPage(2)">← KEMBALI</button>
+  </section>
+
+  <section id="page4" class="hidden">
+    <h2>Periksa Data</h2><p class="subtitle">Cek lagi data kamu. Setelah menekan mulai, tunggu 30 detik sebelum tombol GC terbuka.</p>
+    <div class="note" id="summary"></div>
+    <button class="primary" style="margin-top:22px" id="startTimer" onclick="startWait()">MULAI HITUNG MUNDUR 30 DETIK</button>
+    <div class="progress" id="progress"><span id="bar"></span></div>
+    <div class="status" id="status"></div>
+    <button style="margin-top:12px" onclick="goPage(3)">← PERIKSA BUKTI</button>
+  </section>
+
+  <section id="page5" class="hidden">
+    <h2>Selamat Datang! ✦</h2><p class="subtitle">Waktu tunggu selesai. Kamu bisa membuka link grup utama Kirito Family di bawah ini.</p>
+    <a class="linkbutton primary" href="https://chat.whatsapp.com/L3s5IEOtxj9EmZHUsM3too?s=cl&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener">GABUNG GC UTAMA ↗</a>
+    <div class="note">Ingat: tetap aktif, saling menghargai, dan gunakan grup untuk berbagi karya serta ilmu creator. ✨</div>
+    <button style="margin-top:18px" onclick="location.reload()">ULANGI PENDAFTARAN</button>
+  </section>
+  <p class="tiny">KIRITO FAMILY • CREATOR COMMUNITY</p>
+</main>
+<script>
+let currentPage=1, timerStarted=false;
+function goPage(n){
+  currentPage=n;
+  for(let i=1;i<=5;i++){
+    document.getElementById('page'+i).classList.toggle('hidden',i!==n);
+    const d=document.getElementById('dot'+i);
+    d.classList.toggle('active',i===n);
+    d.classList.toggle('done',i<n);
+    if(i<n)d.textContent='✓';else d.textContent=String(i);
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextPage(from){
+  if(from===1){
+    if(!document.getElementById('nickname').value.trim()){alert('Isi nama/nickname dulu ya.');return;}
+    const t=document.getElementById('tiktok').value.trim();
+    if(!validUrl(t)||!/tiktok\.com/i.test(t)){alert('Masukkan link profil TikTok yang valid.');return;}
+  }
+  if(from===2){
+    const w=document.getElementById('worklink').value.trim();
+    if(!validUrl(w)||!/tiktok\.com/i.test(w)){alert('Masukkan link karya TikTok yang valid.');return;}
+  }
+  if(from===3){
+    if(!document.getElementById('followcheck').checked){alert('Centang konfirmasi bahwa kamu sudah follow akun resmi.');return;}
+    const official=document.getElementById('official').value.trim();
+    if(!official){alert('Isi username/link akun resmi Kirito Family agar calon anggota tahu akun yang harus di-follow.');return;}
+    const proof=document.getElementById('proof').value.trim();
+    if(proof && !validUrl(proof)){alert('Link screenshot belum valid.');return;}
+    const val=id=>document.getElementById(id).value.trim()||'—';
+    document.getElementById('summary').innerHTML='<strong>Nickname:</strong> '+esc(val('nickname'))+'<br><strong>Profil TikTok:</strong> '+esc(val('tiktok'))+'<br><strong>Karya:</strong> '+esc(val('worklink'))+'<br><strong>Akun resmi:</strong> '+esc(val('official'))+'<br><strong>Bukti screenshot:</strong> '+esc(val('proof'));
+  }
+  goPage(from+1);
+}
+function validUrl(s){try{const u=new URL(s);return u.protocol==='https:'||u.protocol==='http:';}catch(e){return false;}}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function startWait(){
+ if(timerStarted)return;timerStarted=true;
+ const btn=document.getElementById('startTimer');btn.disabled=true;
+ const progress=document.getElementById('progress'),bar=document.getElementById('bar'),status=document.getElementById('status');
+ progress.style.display='block';status.style.display='block';
+ let remaining=30;status.textContent='Tunggu '+remaining+' detik…';
+ const interval=setInterval(()=>{
+   remaining--;bar.style.width=((30-remaining)/30*100)+'%';
+   if(remaining>0){status.textContent='Tunggu '+remaining+' detik…';}
+   else{clearInterval(interval);status.textContent='Selesai! Tombol grup sudah terbuka.';goPage(5);}
+ },1000);
+}
+</script>
+</body>
+  </html>
